@@ -18,4 +18,9 @@ node {
     stage('Deploy'){
           echo 'Deploy !'
     }
+    post {
+      always {
+          step([$class: 'GitHubCommitStatusSetter', statusResultSource: [$class: 'ConditionalStatusResultSource', results: []]])    
+      }
+    }
 }
