@@ -1,4 +1,6 @@
-node {
+pipeline {
+    agent any 
+   stages {
    stage('Init variables') {
        env.JAVA_OPTS="-Djava.net.preferIPv4Stack=true"
    }
@@ -24,4 +26,4 @@ node {
             echo 'This will run only if failed'
          }
       }
-}
+   }}
