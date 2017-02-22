@@ -19,7 +19,7 @@ node {
       catch (exc) {
         echo 'ERROR ROBERT'
         // step([$class: 'GitHubCommitStatusSetter', statusResultSource: [$class: 'ConditionalStatusResultSource', results: []]])    
-        throw
+        throw exc
       }
     }
 
