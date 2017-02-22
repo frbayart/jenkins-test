@@ -3,24 +3,21 @@ node {
         env.JAVA_OPTS="-Djava.net.preferIPv4Stack=true"
     }
     stage('SCM') {
-        timeout(time: 2, unit: 'MINUTES') {
-          retry(3) {
-           checkout scm
-          }
+      timeout(time: 2, unit: 'MINUTES') {
+        retry(3) {
+          checkout scm
         }
-        step([$class: 'GitHubSetCommitStatusBuilder'])
+      }
+      step([$class: 'GitHubSetCommitStatusBuilder'])
     }
 
     stage('Discover') {
-        sh "env"
+      sh "env"
+      sh 'exit 1'
     }
 
     stage('Deploy'){
-          echo 'Deploy !'
-    }
-    post {
-      always {
-          step([$class: 'GitHubCommitStatusSetter', statusResultSource: [$class: 'ConditionalStatusResultSource', results: []]])    
-      }
+      echo 'Deploy !'
+      step([$class: 'GitHubCommitStatusSetter', statusResultSource: [$class: 'ConditionalStatusResultSource', results: []]])    
     }
 }
