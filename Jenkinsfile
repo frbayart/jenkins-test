@@ -12,12 +12,18 @@ node {
     }
 
     stage('Discover') {
-      sh "env"
-      sh 'exit 1'
+      try {
+        sh "env"
+        sh 'exit 1'
+      }
+      catch (exc) {
+        echo 'ERROR ROBERT'
+        step([$class: 'GitHubCommitStatusSetter', statusResultSource: [$class: 'ConditionalStatusResultSource', results: []]])    
+        throw
+      }
     }
 
     stage('Deploy'){
       echo 'Deploy !'
-      step([$class: 'GitHubCommitStatusSetter', statusResultSource: [$class: 'ConditionalStatusResultSource', results: []]])    
     }
 }
