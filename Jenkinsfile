@@ -24,6 +24,7 @@ node {
     }
 
     stage('Deploy'){
+      slackSend channel: '#stream', color: 'good', message: 'Slack Message', teamDomain: 'beedemo', token: 'token'
       echo 'Deploy !'
     }
 }
