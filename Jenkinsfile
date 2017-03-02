@@ -18,13 +18,13 @@ node {
       }
       catch (exc) {
         echo 'ERROR ROBERT'
+        slackSend channel: '#stream', color: 'good', message: 'Slack Message', teamDomain: 'beedemo', token: 'token'
         step([$class: 'GitHubCommitStatusSetter', statusResultSource: [$class: 'ConditionalStatusResultSource', results: []]])    
         throw exc
       }
     }
 
     stage('Deploy'){
-      slackSend channel: '#stream', color: 'good', message: 'Slack Message', teamDomain: 'beedemo', token: 'token'
       echo 'Deploy !'
     }
 }
