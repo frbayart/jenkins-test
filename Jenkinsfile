@@ -1,7 +1,7 @@
 node {
     stage('Init variables') {
         env.JAVA_OPTS="-Djava.net.preferIPv4Stack=true"
-        def published_branches = ['master', 'firefox','frbayart-branch-2']
+        env. BRANCH_RELEASED = "['master', 'firefox','frbayart-branch-2']"
     }
     stage('SCM') {
       timeout(time: 2, unit: 'MINUTES') {
@@ -26,7 +26,7 @@ node {
     }
 
   stage('Example') {
-    
+    def published_branches = env.BRANCH_RELEASED
     for (int i = 0; i < published_branches.size(); ++i) {
       if (env.BRANCH_NAME == published_branches[i]) {
         echo "DEPLOY the ${published_branches[i]} branch"
