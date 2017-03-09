@@ -14,7 +14,7 @@ node {
     stage('Discover') {
       try {
         sh "env"
-        sh 'exit 1'
+        sh 'exit 0'
       }
       catch (exc) {
         echo 'ERROR ROBERT'
@@ -23,6 +23,17 @@ node {
         throw exc
       }
     }
+
+  stage('Example') {
+    def published_branches = ['master', 'firefox']
+    for (int i = 0; i < published_branches.size(); ++i) {
+      if (env.BRANCH_NAME == ${published_branches[i]}) {
+        echo "DEPLOY the ${published_branches[i]} branch"
+      } else {
+        echo 'I execute elsewhere'
+      }
+    }
+  }
 
     stage('Deploy'){
       echo 'Deploy !'
