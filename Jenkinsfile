@@ -23,11 +23,11 @@ node {
     stage('Discover') {
       try {
         sh "env"
-        sh 'exit 0'
+        sh 'exit 1'
       }
       catch (exc) {
         echo 'ERROR ROBERT'
-        slackSend channel: '#stream', color: 'good', message: 'Slack Message'
+        slackSend channel: '#stream', color: 'red', message: 'Job ' + env.JOB_URL + 'failed, details on ' + env.BUILD_URL
         step([$class: 'GitHubCommitStatusSetter', statusResultSource: [$class: 'ConditionalStatusResultSource', results: []]])    
         throw exc
       }
