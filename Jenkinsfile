@@ -27,7 +27,7 @@ node {
       }
       catch (exc) {
         echo 'ERROR ROBERT'
-        slackSend channel: '#stream', color: 'red', message: 'Job ' + env.JOB_URL + ' failed, details on ' + env.BUILD_URL + '\n' + exc
+        slackSend channel: '#stream', color: '#FF0000', message: 'Job ' + env.JOB_URL + ' failed, details on ' + env.BUILD_URL + '\n' + exc
         step([$class: 'GitHubCommitStatusSetter', statusResultSource: [$class: 'ConditionalStatusResultSource', results: []]])    
         throw exc
       }
