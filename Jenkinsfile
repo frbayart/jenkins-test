@@ -39,7 +39,7 @@ node {
       } else {
         echo 'I execute elsewhere'
       }
-    }
+
   }
 
     stage('Deploy'){
