@@ -27,7 +27,7 @@ node {
   stage('Example') {
     def published_branches = ['master', 'firefox']
     for (int i = 0; i < published_branches.size(); ++i) {
-      if (env.BRANCH_NAME == ${published_branches[i]}) {
+      if (env.BRANCH_NAME == published_branches[i]) {
         echo "DEPLOY the ${published_branches[i]} branch"
       } else {
         echo 'I execute elsewhere'
