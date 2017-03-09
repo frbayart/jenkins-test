@@ -1,7 +1,7 @@
 node {
     stage('Init variables') {
         env.JAVA_OPTS="-Djava.net.preferIPv4Stack=true"
-        env. BRANCH_RELEASED = "['master', 'firefox','frbayart-branch-2']"
+        env.BRANCH_RELEASED = "['master', 'firefox','frbayart-branch-2']"
     }
     stage('SCM') {
       timeout(time: 2, unit: 'MINUTES') {
