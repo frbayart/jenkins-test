@@ -27,9 +27,10 @@ node {
     }
 
   stage('Example') {
-    for (int i = 0; i < published_branches.size(); ++i) {
-      if (env.BRANCH_NAME == published_branches[i]) {
-        echo "DEPLOY the ${published_branches[i]} branch"
+      published_branches.each { branch ->
+         
+      if (env.BRANCH_NAME == branch) {
+        echo "DEPLOY the ${branch} branch"
       } else {
         echo 'I execute elsewhere'
       }
