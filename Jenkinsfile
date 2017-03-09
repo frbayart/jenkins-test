@@ -23,11 +23,11 @@ node {
     stage('Discover') {
       try {
         sh "env"
-        sh 'exit 1'
+        sh 'exit 0'
       }
       catch (exc) {
         echo 'ERROR ROBERT'
-        slackSend channel: '#stream', color: '#FF0000', message: 'Job ' + env.JOB_URL + ' failed, details on ' + env.BUILD_URL + '\n' + exc
+        slackSend channel: '#stream', color: '#FF0000', message: 'Job ' + env.JOB_URL + 'FAILED \n details on ' + env.BUILD_URL + '\n' + exc
         step([$class: 'GitHubCommitStatusSetter', statusResultSource: [$class: 'ConditionalStatusResultSource', results: []]])    
         throw exc
       }
@@ -42,7 +42,8 @@ node {
 
   }
 
-    stage('Deploy'){
-      echo 'Deploy !'
-    }
+  stage('Status'){
+    slackSend channel: '#stream', color: '#00FF00', message: 'Job ' +  env.JOB_URL + 'OK \n details on ' + env.BUILD_URL
+    echo 'Deploy !'
+  }
 }
