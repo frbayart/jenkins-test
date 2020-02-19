@@ -1,7 +1,16 @@
 node {
+    def published_branches = ['master', 'firefox','frbayart-branch-2']
     stage('Init variables') {
         env.JAVA_OPTS="-Djava.net.preferIPv4Stack=true"
+        for (int i = 0; i < published_branches.size(); ++i) {
+          if (env.BRANCH_NAME == published_branches[i]) {
+            env.DEPLOY="YES"
+          } else {
+            env.DEPLOY="NO"
+          }
+      }
     }
+    
     stage('SCM') {
       timeout(time: 2, unit: 'MINUTES') {
         retry(3) {
@@ -12,12 +21,29 @@ node {
     }
 
     stage('Discover') {
-      sh "env"
-      sh 'exit 1'
+      try {
+        sh "env"
+        sh 'exit 0'
+      }
+      catch (exc) {
+        echo 'ERROR ROBERT'
+        slackSend channel: '#stream', color: '#FF0000', message: 'Job ' + env.JOB_URL + 'FAILED \n details on ' + env.BUILD_URL + '\n' + exc
+        step([$class: 'GitHubCommitStatusSetter', statusResultSource: [$class: 'ConditionalStatusResultSource', results: []]])    
+        throw exc
+      }
     }
 
-    stage('Deploy'){
-      echo 'Deploy !'
-      step([$class: 'GitHubCommitStatusSetter', statusResultSource: [$class: 'ConditionalStatusResultSource', results: []]])    
-    }
+  stage('Example') {
+    if (env.DEPLOY == "YES" ) {
+        echo "DEPLOY the ${BRANCH_NAME} branch"
+      } else {
+        echo 'I execute elsewhere'
+      }
+
+  }
+
+  stage('Status'){
+    slackSend channel: '#stream', color: '#00FF00', message: 'Job ' +  env.JOB_URL + 'OK \n details on ' + env.BUILD_URL
+    echo 'Deploy !'
+  }
 }
